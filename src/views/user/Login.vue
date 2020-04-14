@@ -119,12 +119,15 @@
 import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
+// import { mapMutations } from 'vuex'
 import { timeFix } from '@/utils/util'
+import users from '@/mock/services/user'
 import { getSmsCaptcha, get2step } from '@/api/login'
 
 export default {
   components: {
-    TwoStepCaptcha
+    TwoStepCaptcha,
+    users
   },
   data () {
     return {
@@ -156,7 +159,10 @@ export default {
     // this.requiredTwoStepCaptcha = true
   },
   methods: {
-    ...mapActions(['Login', 'Logout']),
+    ...mapActions(['Login', 'Logout', 'UserInfo']),
+	// ...mapMutations('modules/user', [
+	//     'SET_USERINFO'
+	//   ]),
     // handler
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
@@ -178,7 +184,8 @@ export default {
         form: { validateFields },
         state,
         customActiveKey,
-        Login
+        Login,
+        UserInfo
       } = this
 
       state.loginBtn = true
@@ -192,8 +199,13 @@ export default {
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
           loginParams.password = md5(values.password)
+          console.log(loginParams, 'loginParams')
           Login(loginParams)
-            .then((res) => this.loginSuccess(res))
+            .then(res => {
+              this.loginSuccess(res)
+              const data = { id: 1, name: '传火祭祀场' }
+              UserInfo(data)
+            })
             .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false
@@ -249,7 +261,7 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log(res)
+      console.log(res, 'login')
       // check res.homePage define, set $router.push name res.homePage
       // Why not enter onComplete
       /*
@@ -261,6 +273,13 @@ export default {
         })
       })
       */
+     // const data = {
+     //   id: 1,
+     //   name: '传火祭祀场会长'
+     // }
+     // info(data)
+      // window.localStorage.setItem('user', data)
+      // this.UserInfo(data)
       this.$router.push({ path: '/' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {

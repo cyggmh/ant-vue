@@ -189,9 +189,9 @@ export default {
     }
   },
   created () {
+    console.log(this.userInfo, 'asd')
     this.user = this.userInfo
     this.avatar = this.userInfo.avatar
-
     getRoleList().then(res => {
       // console.log('workplace -> call getRoleList()', res)
     })

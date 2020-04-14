@@ -33,6 +33,10 @@ const user = {
   },
 
   actions: {
+    UserInfo (data) {
+      console.log(data, 'vuex')
+      this.SET_INFO('', data)
+    },
     // 登录
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {

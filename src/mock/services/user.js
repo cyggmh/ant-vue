@@ -20,6 +20,25 @@ const info = (options) => {
     'roleId': 'admin',
     'role': {}
   }
+  // userInfo.id = options.id
+  // userInfo.name = options.name
+  // const userInfo = {
+  //     'id': options.id,
+  //     'name': options.name,
+  //     'username': 'admin',
+  //     'password': '',
+  //     'avatar': '/avatar2.jpg',
+  //     'status': 1,
+  //     'telephone': '',
+  //     'lastLoginIp': '27.154.74.117',
+  //     'lastLoginTime': 1534837621348,
+  //     'creatorId': 'admin',
+  //     'createTime': 1497160610259,
+  //     'merchantCode': 'TLif2btpzg079h15bk',
+  //     'deleted': 0,
+  //     'roleId': 'admin',
+  //     'role': {}
+  // }
   // role
   const roleObj = {
     'id': 'admin',
