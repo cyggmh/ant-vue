@@ -5,6 +5,10 @@ export default {
     console.log(param)
     return EzPost('sys/ez-user/getpage', { data: param }, 'obj')
   },
+  Home (param) {
+    console.log(param)
+    return EzPost('home', { data: param }, 'obj')
+  },
   addUser (param) {
     return EzPost('sys/ez-user/add', { data: param }, 'jstr', { loading: { show: true, text: '正在保存...' } })
   },

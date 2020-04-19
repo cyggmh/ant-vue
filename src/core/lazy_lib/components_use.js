@@ -8,6 +8,8 @@
  */
 import Vue from 'vue'
 import {
+  // LocaleProvider,
+  FormModel,
   ConfigProvider,
   Layout,
   Input,
@@ -45,11 +47,19 @@ import {
   Progress,
   Skeleton,
   Popconfirm,
+  Pagination,
+  Tree,
   message,
-  notification
+  notification,
+  Cascader
 } from 'ant-design-vue'
 // import VueCropper from 'vue-cropper'
-
+Vue.use(FormModel)
+Vue.use(Cascader)
+Vue.use(Tree)
+Vue.use(DatePicker)
+Vue.use(Pagination)
+// Vue.use(LocaleProvider)
 Vue.use(ConfigProvider)
 Vue.use(Layout)
 Vue.use(Input)

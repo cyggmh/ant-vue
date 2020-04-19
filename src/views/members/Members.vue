@@ -1,279 +1,221 @@
 <template>
-  <a-card :bordered="false">
-    <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="规则编号">
-              <a-input v-model="queryParam.id" placeholder=""/>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="使用状态">
-              <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <template v-if="advanced">
-            <a-col :md="8" :sm="24">
-              <a-form-item label="调用次数">
-                <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="更新日期">
-                <a-date-picker v-model="queryParam.date" style="width: 100%" placeholder="请输入更新日期"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="使用状态">
-                <a-select v-model="queryParam.useStatus" placeholder="请选择" default-value="0">
-                  <a-select-option value="0">全部</a-select-option>
-                  <a-select-option value="1">关闭</a-select-option>
-                  <a-select-option value="2">运行中</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="使用状态">
-                <a-select placeholder="请选择" default-value="0">
-                  <a-select-option value="0">全部</a-select-option>
-                  <a-select-option value="1">关闭</a-select-option>
-                  <a-select-option value="2">运行中</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </template>
-          <a-col :md="!advanced && 8 || 24" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
-              <a @click="toggleAdvanced" style="margin-left: 8px">
-                {{ advanced ? '收起' : '展开' }}
-                <a-icon :type="advanced ? 'up' : 'down'"/>
-              </a>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-
-    <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="$refs.createModal.add()">新建</a-button>
-      <a-button type="dashed" @click="tableOption">{{ optionAlertShow && '关闭' || '开启' }} alert</a-button>
-      <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-          <!-- lock | unlock -->
-          <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px">
-          批量操作 <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
-    </div>
-
-    <s-table
-      ref="table"
-      size="default"
-      rowKey="key"
-      :columns="columns"
-      :data="loadData"
-      :alert="options.alert"
-      :rowSelection="options.rowSelection"
-      showPagination="auto"
-    >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-      <span slot="status" slot-scope="text">
-        <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-      </span>
-      <span slot="description" slot-scope="text">
-        <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-      </span>
-
-      <span slot="action" slot-scope="text, record">
-        <template>
-          <a @click="handleEdit(record)">配置</a>
-          <a-divider type="vertical" />
-          <a @click="handleSub(record)">订阅报警</a>
-        </template>
-      </span>
-    </s-table>
-    <!-- <create-form ref="createModal" @ok="handleOk" />
-    <step-by-step-modal ref="modal" @ok="handleOk"/> -->
-  </a-card>
+  <div>
+    <PageView logo="https://img.zcool.cn/community/012b895b49f980a8012036be4f13a6.jpg@1280w_1l_2o_100sh.jpg">
+      <ez-view>
+        <div slot="body">
+          <a-card style="border: 0px;">
+            <div class="table-page-search-wrapper">
+              <a-form layout="inline">
+                <!--layout="inline"-->
+                <a-row :gutter="48">
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="机构名称/简称">
+                      <a-input v-model="queryParam.hospName" placeholder="请输入机构名称/简称" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="级别">
+                      <a-select v-model="queryParam.levelId" placeholder="请选择">
+                        <a-select-option
+                          v-for="(item, index) in levels"
+                          :key="index"
+                          :label="item.displayValue"
+                          :value="item.id"
+                        >{{ item.displayValue }}</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="所属区县">
+                      <a-cascader
+                        v-model="queryParam.districtId"
+                        :options="options"
+                        placeholder="请选择"
+                        @change="onChanges"
+                        changeOnSelect
+                      />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="医院性质">
+                      <a-select v-model="queryParam.hospNatureId" placeholder="请选择">
+                        <a-select-option
+                          v-for="(item, index) in natures"
+                          :key="index"
+                          :label="item.displayValue"
+                          :value="item.id"
+                        >{{ item.displayValue }}</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="是否有效">
+                      <a-select
+                        v-model="queryParam.isvalid"
+                      >
+                        <a-select-option
+                          v-for="(item, index) in validList"
+                          :key="index"
+                          :label="item.label"
+                          :value="item.value"
+                        >{{ item.label }}</a-select-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                </a-row>
+                <div style="display: flex;margin-top: 0px;height: 32px;">
+                  <div style="flex: 1"></div>
+                  <div>
+                    <a-form-item label="">
+                      <a-button style="margin-left: 40px" icon="search" type="primary" @click="() => $refs.table.refresh()">搜索</a-button>
+                      <a-button style="margin-left: 10px;" @click="queryParam = {}">重置</a-button>
+                    </a-form-item>
+                  </div>
+                </div>
+              </a-form>
+            </div>
+          </a-card>
+          <a-card style="border: 0px;margin-top: 10px;">
+            <ez-view slot="cover">
+              <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
+                <div style="margin-bottom: 10px;position: relative;height: 50px;">
+                  <div style="float: left">
+                    <a-icon type="bar-chart"></a-icon><span>医院</span>
+                  </div>
+                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: { }}">新增医院</router-link></a-button>
+                </div>
+                <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
+                  <!--<span slot="registerTime" slot-scope="text, record">-->
+                  <!--<span v-if="record.registerTime ">-->
+                  <!--&lt;!&ndash;{{ record.registerTime.substring(0,10) }}&ndash;&gt;-->
+                  <!--</span>-->
+                  <!--</span>-->
+                  <span slot="action" slot-scope="text, record">
+                    <template>
+                      <a><router-link :to="{ name: 'mps-hospital-hospital-lookhospital', query: {id: record.hospId,state:'look'}}">查看</router-link></a>
+                      <a-divider type="vertical" />
+                      <a><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: {id: record.hospId}}">编辑</router-link></a>
+                    </template>
+                  </span>
+                </s-table>
+              </div>
+            </ez-view>
+          </a-card>
+        </div>
+        <ez-view>
+        </ez-view>
+      </ez-view>
+    </PageView>
+  </div>
 </template>
-
 <script>
-import moment from 'moment'
-import { STable, Ellipsis } from '@/components'
-// import StepByStepModal from './modules/StepByStepModal'
-// import CreateForm from './modules/CreateForm'
-import { getRoleList, getServiceList } from '@/api/manage'
-
-const statusMap = {
-  0: {
-    status: 'default',
-    text: '关闭'
-  },
-  1: {
-    status: 'processing',
-    text: '运行中'
-  },
-  2: {
-    status: 'success',
-    text: '已上线'
-  },
-  3: {
-    status: 'error',
-    text: '异常'
-  }
-}
-
+import {
+  PageView
+} from '@/layouts'
+import {
+  STable, TagSelect
+} from '@/components/antpro'
+import * as BaseGlobal from '@/global/BaseGlobal'
+// import HocApi from '../../../../common/api/mps/hospital/hosApi'
+import ARow from 'ant-design-vue/lib/grid/Row'
+// import PresApi from '../../../../common/api/mps/prescription/presApi'
 export default {
   name: 'Members',
   components: {
+    ARow,
     STable,
-    Ellipsis
-    // CreateForm,
-    // StepByStepModal
+    PageView,
+    TagSelect
   },
   data () {
     return {
-      mdl: {},
-      // 高级搜索 展开/关闭
-      advanced: false,
-      // 查询参数
-      queryParam: {},
-      // 表头
-      columns: [
-        {
-          title: '#',
-          scopedSlots: { customRender: 'serial' }
-        },
-        {
-          title: '规则编号',
-          dataIndex: 'no'
-        },
-        {
-          title: '描述',
-          dataIndex: 'description',
-          scopedSlots: { customRender: 'description' }
-        },
-        {
-          title: '服务调用次数',
-          dataIndex: 'callNo',
-          sorter: true,
-          needTotal: true,
-          customRender: (text) => text + ' 次'
-        },
-        {
-          title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' }
-        },
-        {
-          title: '更新时间',
-          dataIndex: 'updatedAt',
-          sorter: true
-        },
-        {
-          title: '操作',
-          dataIndex: 'action',
-          width: '150px',
-          scopedSlots: { customRender: 'action' }
-        }
-      ],
-      // 加载数据方法 必须为 Promise 对象
+      options: [],
+      levels: {},
+      natures: {},
+      hosNames: [],
+      validList: '',
       loadData: parameter => {
-        console.log('loadData.parameter', parameter)
-        return getServiceList(Object.assign(parameter, this.queryParam))
-          .then(res => {
-            return res.result
-          })
+        // return HocApi.getPage({
+        //   data: Object.assign(parameter, this.queryParam)
+        // }).then(res => {
+        //   return res.data
+        // })
       },
-      selectedRowKeys: [],
-      selectedRows: [],
-
-      // custom table alert & rowSelection
-      options: {
-        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
-        rowSelection: {
-          selectedRowKeys: this.selectedRowKeys,
-          onChange: this.onSelectChange
+      parameter: {
+        districtId: ''
+      },
+      queryParam: {
+        isvalid: '1'
+      },
+      columns: [{
+        'title': 'id',
+        'dataIndex': 'hospCode'
+      },
+      {
+        'title': '名称',
+        'dataIndex': 'hospName'
+      },
+      {
+        'title': '赛季等级',
+        'dataIndex': 'abridge'
+      },
+      {
+        'title': '光等',
+        'dataIndex': 'levelName'
+      },
+      {
+        'title': '职位',
+        'dataIndex': 'hospNatureName'
+      },
+      {
+        'title': '英勇分数',
+        'dataIndex': 'districtName'
+      },
+      {
+        'title': '荣耀分数',
+        'dataIndex': 'address'
+      },
+      {
+        'title': '恶行分数',
+        'dataIndex': 'address'
+      },
+      {
+        'title': '操作',
+        'dataIndex': 'action',
+        'width': '150px',
+        'scopedSlots': {
+          'customRender': 'action'
         }
-      },
-      optionAlertShow: false
+      }
+      ]
     }
   },
-  filters: {
-    statusFilter (type) {
-      return statusMap[type].text
-    },
-    statusTypeFilter (type) {
-      return statusMap[type].status
-    }
-  },
-  created () {
-    this.tableOption()
-    getRoleList({ t: new Date() })
+  mounted () {
+    this.validList = BaseGlobal.validList
+    const self = this
+    this.$ez.fun.getDictVByCode(30, res => {
+      self.levels = res.data
+    })
+    this.$ez.fun.getDictVByCode(40, res => {
+      self.natures = res.data
+    })
+    this.getSelregions()
   },
   methods: {
-    tableOption () {
-      if (!this.optionAlertShow) {
-        this.options = {
-          alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
-          rowSelection: {
-            selectedRowKeys: this.selectedRowKeys,
-            onChange: this.onSelectChange,
-            getCheckboxProps: record => ({
-              props: {
-                disabled: record.no === 'No 2', // Column configuration not to be checked
-                name: record.no
-              }
-            })
-          }
-        }
-        this.optionAlertShow = true
-      } else {
-        this.options = {
-          alert: false,
-          rowSelection: null
-        }
-        this.optionAlertShow = false
-      }
+    getSelregions () {
+      // PresApi.getSelregion({
+      //   data: {
+      //     level: 2,
+      //     id: 31196
+      //   }
+      // }).then(res => {
+      //   console.log(res)
+      //   this.options = res.data
+      // })
     },
-
-    handleEdit (record) {
-      console.log(record)
-      this.$refs.modal.edit(record)
-    },
-    handleSub (record) {
-      if (record.status !== 0) {
-        this.$message.info(`${record.no} 订阅成功`)
-      } else {
-        this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-      }
-    },
-    handleOk () {
-      this.$refs.table.refresh()
-    },
-    onSelectChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
-    },
-    resetSearchForm () {
-      this.queryParam = {
-        date: moment(new Date())
-      }
+    onChanges (value) {
+      console.log(value)
+      this.parameter.districtId = value[value.length - 1]
     }
   }
 }

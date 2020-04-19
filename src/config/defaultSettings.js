@@ -12,15 +12,14 @@
  * storageOptions: {} - Vue-ls 插件配置项 (localStorage/sessionStorage)
  *
  */
-
 export default {
-  primaryColor: '#13C2C2', // primary color of ant design
+  primaryColor: '#52C41A', // primary color of ant design
   navTheme: 'light', // theme for nav menu
   layout: 'topmenu', // nav menu position: sidemenu or topmenu
   contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: false, // sticky header
+  fixedHeader: true, // sticky header
   fixSiderbar: false, // sticky siderbar
-  autoHideHeader: false, //  auto hide header
+  autoHideHeader: true, //  auto hide header
   colorWeak: false,
   multiTab: false,
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
