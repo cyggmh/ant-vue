@@ -9,57 +9,18 @@
                 <!--layout="inline"-->
                 <a-row :gutter="48">
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="机构名称/简称">
-                      <a-input v-model="queryParam.hospName" placeholder="请输入机构名称/简称" />
+                    <a-form-item label="成员名称">
+                      <a-input v-model="queryParam.hospName" placeholder="请输入成员名称" />
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="级别">
-                      <a-select v-model="queryParam.levelId" placeholder="请选择">
-                        <a-select-option
-                          v-for="(item, index) in levels"
-                          :key="index"
-                          :label="item.displayValue"
-                          :value="item.id"
-                        >{{ item.displayValue }}</a-select-option>
-                      </a-select>
+                    <a-form-item label="赛季等级">
+                      <a-input v-model="queryParam.hospName" placeholder="请输入赛季等级" />
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="所属区县">
-                      <a-cascader
-                        v-model="queryParam.districtId"
-                        :options="options"
-                        placeholder="请选择"
-                        @change="onChanges"
-                        changeOnSelect
-                      />
-                    </a-form-item>
-                  </a-col>
-                  <a-col :md="8" :sm="24">
-                    <a-form-item label="医院性质">
-                      <a-select v-model="queryParam.hospNatureId" placeholder="请选择">
-                        <a-select-option
-                          v-for="(item, index) in natures"
-                          :key="index"
-                          :label="item.displayValue"
-                          :value="item.id"
-                        >{{ item.displayValue }}</a-select-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                  <a-col :md="8" :sm="24">
-                    <a-form-item label="是否有效">
-                      <a-select
-                        v-model="queryParam.isvalid"
-                      >
-                        <a-select-option
-                          v-for="(item, index) in validList"
-                          :key="index"
-                          :label="item.label"
-                          :value="item.value"
-                        >{{ item.label }}</a-select-option>
-                      </a-select>
+                    <a-form-item label="光等">
+                      <a-input v-model="queryParam.hospName" placeholder="请输入光等" />
                     </a-form-item>
                   </a-col>
                 </a-row>
@@ -80,9 +41,9 @@
               <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
                 <div style="margin-bottom: 10px;position: relative;height: 50px;">
                   <div style="float: left">
-                    <a-icon type="bar-chart"></a-icon><span>医院</span>
+                    <a-icon type="bar-chart"></a-icon><span>成员列表</span>
                   </div>
-                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: { }}">新增医院</router-link></a-button>
+                  <!-- <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: { }}">新增医院</router-link></a-button> -->
                 </div>
                 <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
                   <!--<span slot="registerTime" slot-scope="text, record">-->
@@ -92,9 +53,9 @@
                   <!--</span>-->
                   <span slot="action" slot-scope="text, record">
                     <template>
-                      <a><router-link :to="{ name: 'mps-hospital-hospital-lookhospital', query: {id: record.hospId,state:'look'}}">查看</router-link></a>
-                      <a-divider type="vertical" />
-                      <a><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: {id: record.hospId}}">编辑</router-link></a>
+                      <a><router-link :to="{ path: 'members/lookMembers', query: {id: record.hospId,state:'look'}}">查看</router-link></a>
+                      <!-- <a-divider type="vertical" /> -->
+                      <!-- <a><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: {id: record.hospId}}">编辑</router-link></a> -->
                     </template>
                   </span>
                 </s-table>
@@ -140,7 +101,31 @@ export default {
         // }).then(res => {
         //   return res.data
         // })
+         return new Promise((resolve, reject) => {
+                  resolve(1)
+                }).then(res => {
+                  return {
+                    records: [
+                      {
+                        id: 1,
+                        name: 'joker'
+                      }
+                    ],
+                    total: 1,
+                    size: 10,
+                    current: 1,
+                    orders: [],
+                    searchCount: true,
+                    pages: 1
+                  }
+                })
       },
+      data: [
+        {
+          id: 1,
+          name: 'joker'
+        }
+      ],
       parameter: {
         districtId: ''
       },
@@ -149,11 +134,11 @@ export default {
       },
       columns: [{
         'title': 'id',
-        'dataIndex': 'hospCode'
+        'dataIndex': 'id'
       },
       {
         'title': '名称',
-        'dataIndex': 'hospName'
+        'dataIndex': 'name'
       },
       {
         'title': '赛季等级',
@@ -177,7 +162,7 @@ export default {
       },
       {
         'title': '恶行分数',
-        'dataIndex': 'address'
+        'dataIndex': 'address1'
       },
       {
         'title': '操作',

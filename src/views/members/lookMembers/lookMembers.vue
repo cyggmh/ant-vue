@@ -11,7 +11,7 @@
               <a-form-item
                 style="display:none;">
                 <a-input
-                    :disabled="disabled"
+                  :disabled="disabled"
                   v-decorator="[
                     'hospId',
                     { initialValue: data.hospId}
@@ -23,12 +23,12 @@
             <a-row :gutter="48">
               <a-col :span="6">
                 <a-form-item
-                  label="医疗机构编码*">
+                  label="名称">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
                       'hospCode',
-                      {rules: [{ required: true, message: '请输入医疗机构编码' }],
+                      {rules: [{ required: true, message: '名称' }],
                        initialValue: data.hospCode}
                     ]"
                     placeholder="请输入内容"
@@ -37,12 +37,12 @@
               </a-col>
               <a-col :span="6">
                 <a-form-item
-                  label="机构名称">
+                  label="赛季等级">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
                       'hospName',
-                      {rules: [{ required: true, message: '请输入机构名称' }],
+                      {rules: [{ required: true, message: '赛季等级' }],
                        initialValue: data.hospName}
                     ]"
                     placeholder="请输入内容"
@@ -50,7 +50,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="6">
-                <a-form-item label="所属区县">
+                <a-form-item label="总光等">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
@@ -78,7 +78,7 @@
             <a-row>
               <a-col>
                 <a-form-item
-                  label="说明">
+                  label="个人简介">
                   <a-textarea
                     :disabled="disabled"
                     v-decorator="[
@@ -94,7 +94,7 @@
             <a-row :gutter="48">
               <a-col :span="6">
                 <a-form-item
-                  label="简称">
+                  label="微光">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
@@ -107,7 +107,7 @@
               </a-col>
               <a-col :span="6">
                 <a-form-item
-                  label="级别">
+                  label="银币">
                   <a-select
                     :disabled="disabled"
                     v-decorator="[
@@ -126,7 +126,7 @@
               </a-col>
               <a-col :span="6">
                 <a-form-item
-                  label="医院性质">
+                  label="光尘">
                   <a-select
                     :disabled="disabled"
                     v-decorator="[
@@ -146,12 +146,11 @@
             <a-row :gutter="48">
               <a-col :span="6">
                 <a-form-item
-                  label="电话">
+                  label="恶行分数">
                   <a-input
                     :disabled="disabled"
                     step="0"
                     :maxLength="11"
-                    style="width: 200px;"
                     v-decorator="[
                       'phone',{rules: [{ required: true, message: '请输入电话' },{validator:phoneCheck.bind(this)}],initialValue: data.phone}
                     ]"
@@ -161,7 +160,7 @@
               </a-col>
               <a-col :span="6">
                 <a-form-item
-                  label="地址">
+                  label="英勇分数">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
@@ -171,59 +170,16 @@
                   />
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row>
-              <a-col>
+              <a-col :span="6">
                 <a-form-item
-                  label="介绍">
-                  <a-textarea
+                  label="荣耀分数">
+                  <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'presentation',{initialValue: data.presentation}
+                      'address',{rules: [{ required: true, message: '请输入地址' }],initialValue: data.address}
                     ]"
                     placeholder="请输入内容"
-                    :rows="4"
                   />
-                </a-form-item>
-              </a-col>
-            </a-row>
-            <detail-list title="运营信息">
-            </detail-list>
-            <a-row :gutter="48">
-              <a-col :span="6">
-                <a-form-item
-                  label="是否有效">
-                  <a-select
-                    :disabled="disabled"
-                    v-decorator="[
-                      'isvalid',{initialValue: data.isvalid}
-                    ]"
-                    placeholder="请选择">
-                    <a-select-option
-                      v-for="(item, index) in validList"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                    >{{ item.label }}</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :span="6">
-                <a-form-item
-                  label="签约状态">
-                  <a-select
-                    :disabled="disabled"
-                    v-decorator="[
-                      'signStatus',{initialValue: data.signStatus}
-                    ]"
-                    placeholder="请选择">
-                    <a-select-option
-                      v-for="(item, index) in signList"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                    >{{ item.label }}</a-select-option>
-                  </a-select>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -248,8 +204,8 @@ import {
 } from '@/components/antpro'
 import DetailList from '@/components/antpro/tools/DetailList'
 import * as BaseGlobal from '@/global/BaseGlobal'
-import HosApi from '../../../../../common/api/mps/hospital/hosApi'
-import PresApi from '../../../../../common/api/mps/prescription/presApi'
+// import HosApi from '../../../../../common/api/mps/hospital/hosApi'
+// import PresApi from '../../../../../common/api/mps/prescription/presApi'
 const DetailListItem = DetailList.Item
 
 export default {
@@ -324,74 +280,74 @@ export default {
   },
   methods: {
     handsubmit () {
-      const self = this
+      // const self = this
       this.form.validateFields(err => {
         if (!err) {
           const data = this.form.getFieldsValue()
           data.district = data.district.join(',')
           this.$ez.fun.formDataFormat(data, ['validityPeriod'])
-          if (BaseGlobal.isNotEmpty(this.parameter.id) && this.parameter.id !== 0) {
-            HosApi.update({
-              data: data,
-              success: res => {
-                this.$message.success('编辑成功')
-                self.$router.go(-1)
-              }
-            })
-          } else {
-            HosApi.add({
-              data: data,
-              success: res => {
-                this.$message.success('添加成功')
-                self.$router.go(-1)
-              }
-            })
-          }
+          // if (BaseGlobal.isNotEmpty(this.parameter.id) && this.parameter.id !== 0) {
+          //   HosApi.update({
+          //     data: data,
+          //     success: res => {
+          //       this.$message.success('编辑成功')
+          //       self.$router.go(-1)
+          //     }
+          //   })
+          // } else {
+          //   HosApi.add({
+          //     data: data,
+          //     success: res => {
+          //       this.$message.success('添加成功')
+          //       self.$router.go(-1)
+          //     }
+          //   })
+          // }
         } else {
           this.$message.error('新增医院信息未填写完善，重试！')
         }
       })
     },
     getSelregions () {
-      PresApi.getSelregion({
-        data: {
-          level: 2,
-          id: 31196
-        }
-      }).then(res => {
-        console.log(res)
-        this.options = res.data
-      })
+      // PresApi.getSelregion({
+      //   data: {
+      //     level: 2,
+      //     id: 31196
+      //   }
+      // }).then(res => {
+      //   console.log(res)
+      //   this.options = res.data
+      // })
     },
     onChanges (value) {
       console.log(value)
       this.parameter.districtId = value[value.length - 1]
     },
     getData () {
-      HosApi.getInfo({
-        data: this.parameter,
-        success: res => {
-          this.data.hospCode = res.data.hospCode
-          this.data.hospName = res.data.hospName
-          this.data.districtName = res.data.districtName
-          this.data.hospNatureId = res.data.hospNatureId
-          this.data.levelId = res.data.levelId
-          this.data.district = res.data.district
-          this.data.districtId = res.data.districtId
-          this.data.directions = res.data.directions
-          this.data.district = res.data.district.split(',')
-          this.data.abridge = res.data.abridge
-          this.data.address = res.data.address
-          this.data.level = res.data.level
-          this.data.hospNature = res.data.hospNature
-          this.data.phone = res.data.phone
-          this.data.presentation = res.data.presentation
-          this.data.isvalid = res.data.isvalid + ''
-          this.data.signStatus = res.data.signStatus + ''
-          this.data.community = res.data.community
-          this.data.hospId = res.data.hospId
-        }
-      })
+      // HosApi.getInfo({
+      //   data: this.parameter,
+      //   success: res => {
+      //     this.data.hospCode = res.data.hospCode
+      //     this.data.hospName = res.data.hospName
+      //     this.data.districtName = res.data.districtName
+      //     this.data.hospNatureId = res.data.hospNatureId
+      //     this.data.levelId = res.data.levelId
+      //     this.data.district = res.data.district
+      //     this.data.districtId = res.data.districtId
+      //     this.data.directions = res.data.directions
+      //     this.data.district = res.data.district.split(',')
+      //     this.data.abridge = res.data.abridge
+      //     this.data.address = res.data.address
+      //     this.data.level = res.data.level
+      //     this.data.hospNature = res.data.hospNature
+      //     this.data.phone = res.data.phone
+      //     this.data.presentation = res.data.presentation
+      //     this.data.isvalid = res.data.isvalid + ''
+      //     this.data.signStatus = res.data.signStatus + ''
+      //     this.data.community = res.data.community
+      //     this.data.hospId = res.data.hospId
+      //   }
+      // })
     },
     phoneCheck (rule, value, callbackFn) {
       const reg = /^[0-9]*$/

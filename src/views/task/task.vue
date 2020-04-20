@@ -9,56 +9,19 @@
                 <!--layout="inline"-->
                 <a-row :gutter="48">
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="机构名称/简称">
-                      <a-input v-model="queryParam.hospName" placeholder="请输入机构名称/简称" />
+                    <a-form-item label="任务名称">
+                      <a-input v-model="queryParam.hospName" placeholder="请输入任务名称" />
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="级别">
-                      <a-select v-model="queryParam.levelId" placeholder="请选择">
+                    <a-form-item label="任务类型">
+                      <a-select v-model="queryParam.levelId" placeholder="请选择任务类型">
                         <a-select-option
                           v-for="(item, index) in levels"
                           :key="index"
                           :label="item.displayValue"
                           :value="item.id"
                         >{{ item.displayValue }}</a-select-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                  <a-col :md="8" :sm="24">
-                    <a-form-item label="所属区县">
-                      <a-cascader
-                        v-model="queryParam.districtId"
-                        :options="options"
-                        placeholder="请选择"
-                        @change="onChanges"
-                        changeOnSelect
-                      />
-                    </a-form-item>
-                  </a-col>
-                  <a-col :md="8" :sm="24">
-                    <a-form-item label="医院性质">
-                      <a-select v-model="queryParam.hospNatureId" placeholder="请选择">
-                        <a-select-option
-                          v-for="(item, index) in natures"
-                          :key="index"
-                          :label="item.displayValue"
-                          :value="item.id"
-                        >{{ item.displayValue }}</a-select-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                  <a-col :md="8" :sm="24">
-                    <a-form-item label="是否有效">
-                      <a-select
-                        v-model="queryParam.isvalid"
-                      >
-                        <a-select-option
-                          v-for="(item, index) in validList"
-                          :key="index"
-                          :label="item.label"
-                          :value="item.value"
-                        >{{ item.label }}</a-select-option>
                       </a-select>
                     </a-form-item>
                   </a-col>
@@ -80,9 +43,9 @@
               <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
                 <div style="margin-bottom: 10px;position: relative;height: 50px;">
                   <div style="float: left">
-                    <a-icon type="bar-chart"></a-icon><span>医院</span>
+                    <a-icon type="bar-chart"></a-icon><span>任务列表</span>
                   </div>
-                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: { }}">新增医院</router-link></a-button>
+                  <!-- <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: { }}">新增医院</router-link></a-button> -->
                 </div>
                 <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
                   <!--<span slot="registerTime" slot-scope="text, record">-->
@@ -148,32 +111,28 @@ export default {
         isvalid: '1'
       },
       columns: [{
-        'title': '医疗机构编码',
-        'dataIndex': 'hospCode'
+        'title': 'id',
+        'dataIndex': 'id'
       },
       {
-        'title': '机构名称',
+        'title': '任务名称',
         'dataIndex': 'hospName'
       },
       {
-        'title': '简称',
+        'title': '任务类型',
         'dataIndex': 'abridge'
       },
       {
-        'title': '级别',
+        'title': '任务奖励',
         'dataIndex': 'levelName'
       },
       {
-        'title': '医院性质',
+        'title': '开始时间',
         'dataIndex': 'hospNatureName'
       },
       {
-        'title': '所属区县',
+        'title': '结束时间',
         'dataIndex': 'districtName'
-      },
-      {
-        'title': '地址',
-        'dataIndex': 'address'
       },
       {
         'title': '操作',
