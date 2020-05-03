@@ -10,19 +10,19 @@
                 <a-row :gutter="48">
                   <a-col :md="8" :sm="24">
                     <a-form-item label="成员名称">
-                      <a-input v-model="queryParam.hospName" placeholder="请输入成员名称" />
+                      <a-input v-model="queryParam.name" placeholder="请输入成员名称" />
                     </a-form-item>
                   </a-col>
-                  <a-col :md="8" :sm="24">
+                  <!-- <a-col :md="8" :sm="24">
                     <a-form-item label="赛季等级">
-                      <a-input v-model="queryParam.hospName" placeholder="请输入赛季等级" />
+                      <a-input v-model="queryParam.seasonLevels" placeholder="请输入赛季等级" />
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
                     <a-form-item label="光等">
-                      <a-input v-model="queryParam.hospName" placeholder="请输入光等" />
+                      <a-input v-model="queryParam.hardLight" placeholder="请输入光等" />
                     </a-form-item>
-                  </a-col>
+                  </a-col> -->
                 </a-row>
                 <div style="display: flex;margin-top: 0px;height: 32px;">
                   <div style="flex: 1"></div>
@@ -53,7 +53,7 @@
                   <!--</span>-->
                   <span slot="action" slot-scope="text, record">
                     <template>
-                      <a><router-link :to="{ path: 'members/lookMembers', query: {id: record.hospId,state:'look'}}">查看</router-link></a>
+                      <a><router-link :to="{ path: 'members/lookMembers', query: {id: record.id,state:'look'}}">查看</router-link></a>
                       <!-- <a-divider type="vertical" /> -->
                       <!-- <a><router-link :to="{ name: 'mps-hospital-hospital-addhospital', query: {id: record.hospId}}">编辑</router-link></a> -->
                     </template>
@@ -77,7 +77,7 @@ import {
   STable, TagSelect
 } from '@/components/antpro'
 import * as BaseGlobal from '@/global/BaseGlobal'
-// import HocApi from '../../../../common/api/mps/hospital/hosApi'
+import userApi from '../../common/api/guild/userApi'
 import ARow from 'ant-design-vue/lib/grid/Row'
 // import PresApi from '../../../../common/api/mps/prescription/presApi'
 export default {
@@ -96,42 +96,32 @@ export default {
       hosNames: [],
       validList: '',
       loadData: parameter => {
-        // return HocApi.getPage({
-        //   data: Object.assign(parameter, this.queryParam)
-        // }).then(res => {
-        //   return res.data
-        // })
-         return new Promise((resolve, reject) => {
-                  resolve(1)
-                }).then(res => {
-                  return {
-                    records: [
-                      {
-                        id: 1,
-                        name: 'joker'
-                      }
-                    ],
-                    total: 1,
-                    size: 10,
-                    current: 1,
-                    orders: [],
-                    searchCount: true,
-                    pages: 1
-                  }
-                })
+        return userApi.userList({
+          data: Object.assign(parameter, this.queryParam)
+        }).then(res => {
+          return res.data
+        })
+         // return new Promise((resolve, reject) => {
+         //          resolve(1)
+         //        }).then(res => {
+         //          return {
+         //            records: [
+         //              {
+         //                id: 1,
+         //                name: 'joker'
+         //              }
+         //            ],
+         //            total: 1,
+         //            size: 10,
+         //            current: 1,
+         //            orders: [],
+         //            searchCount: true,
+         //            pages: 1
+         //          }
+         //        })
       },
-      data: [
-        {
-          id: 1,
-          name: 'joker'
-        }
-      ],
-      parameter: {
-        districtId: ''
-      },
-      queryParam: {
-        isvalid: '1'
-      },
+      data: [],
+      queryParam: {},
       columns: [{
         'title': 'id',
         'dataIndex': 'id'
@@ -142,27 +132,27 @@ export default {
       },
       {
         'title': '赛季等级',
-        'dataIndex': 'abridge'
+        'dataIndex': 'seasonLevels'
       },
       {
         'title': '光等',
-        'dataIndex': 'levelName'
+        'dataIndex': 'hardLight'
       },
       {
         'title': '职位',
-        'dataIndex': 'hospNatureName'
+        'dataIndex': 'position'
       },
       {
         'title': '英勇分数',
-        'dataIndex': 'districtName'
+        'dataIndex': 'heroic'
       },
       {
         'title': '荣耀分数',
-        'dataIndex': 'address'
+        'dataIndex': 'glory'
       },
       {
         'title': '恶行分数',
-        'dataIndex': 'address1'
+        'dataIndex': 'Evil'
       },
       {
         'title': '操作',
@@ -177,13 +167,6 @@ export default {
   },
   mounted () {
     this.validList = BaseGlobal.validList
-    const self = this
-    this.$ez.fun.getDictVByCode(30, res => {
-      self.levels = res.data
-    })
-    this.$ez.fun.getDictVByCode(40, res => {
-      self.natures = res.data
-    })
     this.getSelregions()
   },
   methods: {

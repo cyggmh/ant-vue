@@ -7,7 +7,7 @@ const info = (options) => {
     'id': '4291d7da9005377ec9aec4a71ea837f',
     'name': '天野远子',
     'username': 'admin',
-    'password': '',
+    'password': '111111',
     'avatar': '/avatar2.jpg',
     'status': 1,
     'telephone': '',

@@ -2,9 +2,9 @@ import Mock from 'mockjs2'
 import { builder, getBody } from '../util'
 
 const username = ['admin', 'super']
-// 强硬要求 ant.design 相同密码
-// '21232f297a57a5a743894a0e4a801fc3',
-const password = ['e10adc3949ba59abbe56e057f20f883e'] // admin, ant.design
+// 强硬要求 111111 相同密码
+// '96e79218965eb72c92a549dd5a330112',
+const password = ['96e79218965eb72c92a549dd5a330112'] // admin, ant.design
 
 const login = (options) => {
   const body = getBody(options)

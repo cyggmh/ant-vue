@@ -48,14 +48,14 @@ export const asyncRouterMap = [
       // members
       {
         path: '/members',
-        redirect: '/members/members',
+        redirect: '/members/Members',
         component: PageView,
         meta: { title: '成员管理', icon: 'table', permission: [ 'table' ] },
         children: [
           {
             path: '/members',
             name: 'Members',
-            component: () => import('@/views/members/members'),
+            component: () => import('@/views/members/Members'),
             meta: { title: '成员列表', keepAlive: true, permission: [ 'table' ] }
           },
           {
@@ -81,10 +81,16 @@ export const asyncRouterMap = [
             meta: { title: '任务列表', keepAlive: true, permission: [ 'table' ] }
           },
           {
-            path: '/members',
-            name: 'Members',
+            path: '/taskRecord',
+            name: 'taskRecord',
+            component: () => import('@/views/task/taskRecord'),
+            meta: { title: '任务记录表', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/task/lookTask',
+            name: 'lookTask',
 			hidden: true,
-            component: () => import('@/views/members/members'),
+            component: () => import('@/views/task/lookTask/lookTask'),
             meta: { title: '任务详情', keepAlive: true, permission: [ 'table' ] }
           }
         ]
@@ -106,7 +112,7 @@ export const asyncRouterMap = [
             path: '/members',
             name: 'Members',
 			hidden: true,
-            component: () => import('@/views/members/members'),
+            component: () => import('@/views/members/Members'),
             meta: { title: '商品详情', keepAlive: true, permission: [ 'table' ] }
           }
         ]
@@ -128,7 +134,7 @@ export const asyncRouterMap = [
             path: '/members',
             name: 'Members',
 			hidden: true,
-            component: () => import('@/views/members/members'),
+            component: () => import('@/views/members/Members'),
             meta: { title: '奖励详情', keepAlive: true, permission: [ 'table' ] }
           }
         ]

@@ -14,26 +14,25 @@
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="任务类型">
-                      <a-select v-model="queryParam.taskType" placeholder="请选择任务类型">
-                        <a-select-option
-                          v-for="(item, index) in taskTypeList"
-                          :key="index"
-                          :label="item"
-                          :value="item"
-                        >{{ item }}</a-select-option>
-                      </a-select>
+                    <a-form-item label="成员名称">
+                      <a-input v-model="queryParam.userName" placeholder="请输入成员名称" />
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="任务奖励">
-                      <a-select v-model="queryParam.taskReward" placeholder="请选择任务奖励类型">
+                    <a-form-item label="状态">
+                      <a-select v-model="queryParam.state" placeholder="请选择任务状态">
                         <a-select-option
-                          v-for="(item, index) in taskRewardList"
-                          :key="index"
-                          :label="item"
-                          :value="item"
-                        >{{ item }}</a-select-option>
+                          label="全部"
+                          value=""
+                        >全部</a-select-option>
+                        <a-select-option
+                          label="完成"
+                          :value="1"
+                        >完成</a-select-option>
+                        <a-select-option
+                          label="未完成"
+                          :value="0"
+                        >未完成</a-select-option>
                       </a-select>
                     </a-form-item>
                   </a-col>
@@ -55,9 +54,9 @@
               <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
                 <div style="margin-bottom: 10px;position: relative;height: 50px;">
                   <div style="float: left">
-                    <a-icon type="bar-chart"></a-icon><span>任务列表</span>
+                    <a-icon type="bar-chart"></a-icon><span>任务记录列表</span>
                   </div>
-                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/task/lookTask', query: {id: 0}}">新增任务信息</router-link></a-button>
+                  <!-- <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/task/lookTask', query: {id: 0}}">新增任务信息</router-link></a-button> -->
                 </div>
                 <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
                   <!--<span slot="registerTime" slot-scope="text, record">-->
@@ -65,13 +64,13 @@
                   <!--&lt;!&ndash;{{ record.registerTime.substring(0,10) }}&ndash;&gt;-->
                   <!--</span>-->
                   <!--</span>-->
-                  <span slot="action" slot-scope="text, record">
+                  <!-- <span slot="action" slot-scope="text, record">
                     <template>
                       <a><router-link :to="{ path: '/task/lookTask', query: {id: record.id,state:'look'}}">查看</router-link></a>
                       <a-divider type="vertical" />
                       <a><router-link :to="{ path: '/task/lookTask', query: {id: record.id}}">编辑</router-link></a>
                     </template>
-                  </span>
+                  </span> -->
                 </s-table>
               </div>
             </ez-view>
@@ -96,7 +95,7 @@ import ARow from 'ant-design-vue/lib/grid/Row'
 // import PresApi from '../../../../common/api/mps/prescription/presApi'
 import taskApi from '../../common/api/guild/taskApi'
 export default {
-  name: 'Task',
+  name: 'TaskRecord',
   components: {
     ARow,
     STable,
@@ -113,7 +112,7 @@ export default {
       hosNames: [],
       validList: '',
       loadData: parameter => {
-        return taskApi.taskList({
+        return taskApi.taskRecordList({
           data: Object.assign(parameter, this.queryParam)
         }).then(res => {
           return res.data
@@ -123,6 +122,7 @@ export default {
         districtId: ''
       },
       queryParam: {
+		state: ''
       },
       columns: [{
         'title': 'id',
@@ -133,36 +133,13 @@ export default {
         'dataIndex': 'taskName'
       },
       {
-        'title': '任务类型',
-        'dataIndex': 'taskType'
+        'title': '成员名称',
+        'dataIndex': 'userName'
       },
       {
-        'title': '任务奖励',
-        'dataIndex': 'taskReward'
-      },
-      {
-        'title': '奖励数值',
-        'dataIndex': 'taskAsk'
-      },
-      {
-        'title': '任务花费(微光)',
-        'dataIndex': 'taskSpend'
-      },
-      {
-        'title': '开始时间',
-        'dataIndex': 'taskStartTime'
-      },
-      {
-        'title': '结束时间',
-        'dataIndex': 'taskEndTime'
-      },
-      {
-        'title': '操作',
-        'dataIndex': 'action',
-        'width': '150px',
-        'scopedSlots': {
-          'customRender': 'action'
-        }
+        'title': '状态',
+        'dataIndex': 'state',
+        customRender: (state) => { if (state === 0) { return '未完成' } else if (state === 1) { return '完成' } }
       }
       ]
     }

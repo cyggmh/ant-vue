@@ -1,19 +1,20 @@
 <template>
-  <page-view :avatar="avatar" :title="false">
+  <page-view :title="false">
     <div slot="headerContent">
-      <div class="title">{{ timeFix }}，{{ user.name }}<span class="welcome-text">，{{ welcome }}</span></div>
-      <div>前端工程师 | 蚂蚁金服 - 某某某事业群 - VUE平台</div>
+      <!-- <div class="title">{{ timeFix }}，{{ '公会会长'+guildUser.name }}<span class="welcome-text">，{{ welcome }}</span></div> -->
+      <div class="title" style="font-size: 24px;"><span style="font-weight: 600;">{{ '欢迎来到公会：'+ guildInfo.guildName }}</span></div>
+      <div style="font-size: 18px;padding-bottom: 20px;">{{ '会长：'+guildUser.name }} | {{ '赛季等级：'+guildUser.seasonLevels }} - {{ '光等：'+(parseInt(guildUser.hardLight) + parseInt(guildUser.artifact)) }} - Steam平台</div>
     </div>
     <div slot="extra">
       <a-row class="more-info">
         <a-col :span="8">
-          <head-info title="项目" content="56" :center="false" :bordered="false"/>
+          <head-info title="成员" :content="guildInfo.userNum +'/'+ guildInfo.guildMemberMax" :center="false" :bordered="false"/>
         </a-col>
         <a-col :span="8">
-          <head-info title="团队排名" content="8/24" :center="false" :bordered="false"/>
+          <head-info title="公会等级" :content="guildInfo.guildLevels" :center="false" :bordered="false"/>
         </a-col>
         <a-col :span="8">
-          <head-info title="项目数" content="2,223" :center="false" />
+          <head-info title="公会资金" :content="guildInfo.guildFunds" :center="false" />
         </a-col>
       </a-row>
     </div>
@@ -116,6 +117,7 @@ import { mapState } from 'vuex'
 import { PageView } from '@/layouts'
 import HeadInfo from '@/components/tools/HeadInfo'
 import { Radar } from '@/components'
+import guildApi from '../../common/api/guild/guildApi'
 
 import { getRoleList, getServiceList } from '@/api/manage'
 
@@ -130,6 +132,8 @@ export default {
   },
   data () {
     return {
+	guildInfo: {},
+	guidlUser: {},
       timeFix: timeFix(),
       avatar: '',
       user: {},
@@ -169,14 +173,20 @@ export default {
         max: 80
       }],
       axisData: [
-        { item: '引用', a: 70, b: 30, c: 40 },
-        { item: '口碑', a: 60, b: 70, c: 40 },
-        { item: '产量', a: 50, b: 60, c: 40 },
-        { item: '贡献', a: 40, b: 50, c: 40 },
-        { item: '热度', a: 60, b: 70, c: 40 },
+        { item: '活跃度', a: 70, b: 30, c: 40 },
+        { item: '任务完成度', a: 60, b: 70, c: 40 },
+        { item: '在线时长', a: 50, b: 60, c: 40 },
+        { item: '贡献度', a: 40, b: 50, c: 40 },
+        { item: '', a: 60, b: 70, c: 40 },
         { item: '引用', a: 70, b: 50, c: 40 }
       ],
-      radarData: []
+      radarData: [
+        { item: '活跃度', a: 70, b: 30, c: 40 },
+        { item: '任务完成度', a: 60, b: 70, c: 40 },
+        { item: '在线时长', a: 50, b: 60, c: 40 },
+        { item: '贡献度', a: 40, b: 50, c: 40 },
+        { item: '', a: 60, b: 70, c: 40 },
+        { item: '引用', a: 70, b: 50, c: 40 }]
     }
   },
   computed: {
@@ -190,6 +200,13 @@ export default {
   },
   created () {
     console.log(this.userInfo, 'asd')
+	guildApi.guildInfo({ data: {} }).then(res => {
+		console.log(res.data)
+		this.guildInfo = res.data.guild
+		this.guildUser = res.data.user
+	// this.data = res.data
+	// return res.data
+	})
     this.user = this.userInfo
     this.avatar = this.userInfo.avatar
     getRoleList().then(res => {
@@ -234,12 +251,13 @@ export default {
           const dv = new DataSet.View().source(res.result)
           dv.transform({
             type: 'fold',
-            fields: ['个人', '团队', '部门'],
+            fields: ['个人', '公会'],
             key: 'user',
             value: 'score'
           })
 
           this.radarData = dv.rows
+	console.log(this.radarData)
           this.radarLoading = false
         })
     }

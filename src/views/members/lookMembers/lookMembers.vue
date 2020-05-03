@@ -13,8 +13,8 @@
                 <a-input
                   :disabled="disabled"
                   v-decorator="[
-                    'hospId',
-                    { initialValue: data.hospId}
+                    'id',
+                    { initialValue: data.id}
                   ]"
                   placeholder="请输入内容"
                 />
@@ -23,17 +23,25 @@
             <a-row :gutter="48">
               <a-col :span="6">
                 <a-form-item
+                  label="头像">
+                  <img :src="data.headImage" style="width: 150px;height: 150px;" />
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row :gutter="48">
+              <a-col :span="6">
+                <a-form-item
                   label="名称">
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'hospCode',
-                      {rules: [{ required: true, message: '名称' }],
-                       initialValue: data.hospCode}
+                      'name',
+                      {rules: [{ required: false, message: '名称' }],
+                       initialValue: data.name}
                     ]"
                     placeholder="请输入内容"
                   />
-                </a-form-item>
+                </a-form-item>`
               </a-col>
               <a-col :span="6">
                 <a-form-item
@@ -41,9 +49,9 @@
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'hospName',
-                      {rules: [{ required: true, message: '赛季等级' }],
-                       initialValue: data.hospName}
+                      'seasonLevels',
+                      {rules: [{ required: false, message: '赛季等级' }],
+                       initialValue: data.seasonLevels}
                     ]"
                     placeholder="请输入内容"
                   />
@@ -54,9 +62,9 @@
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'districtName',
-                      {rules: [{ required: true, message: '请输入所属区县' }],
-                       initialValue: data.districtName}
+                      'hardLight',
+                      {rules: [{ required: false, message: '请输入所属区县' }],
+                       initialValue: parseInt(data.hardLight)+parseInt(data.artifact)}
                     ]"
                     placeholder="请输入内容"
                   />
@@ -82,9 +90,9 @@
                   <a-textarea
                     :disabled="disabled"
                     v-decorator="[
-                      'directions',{initialValue: data.description}
+                      'synopsis',{initialValue: data.synopsis}
                     ]"
-                    placeholder="请输入内容"
+                    placeholder="暂无内容"
                     :rows="4" />
                 </a-form-item>
               </a-col>
@@ -98,8 +106,8 @@
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'abridge',
-                      {rules: [{ required: true, message: '请输入简称' }],initialValue: data.abridge}
+                      'glimmering',
+                      {rules: [{ required: false, message: '请输入简称' }],initialValue: data.glimmering}
                     ]"
                     placeholder="请输入内容"
                   />
@@ -108,38 +116,27 @@
               <a-col :span="6">
                 <a-form-item
                   label="银币">
-                  <a-select
+                  <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'levelId',
-                      {rules: [{ required: true, message: '请输入级别' }],initialValue: data.levelId}
+                      'coin',
+                      {rules: [{ required: false, message: '请输入简称' }],initialValue: data.coin}
                     ]"
-                    placeholder="请选择">
-                    <a-select-option
-                      v-for="(item, index) in levels"
-                      :key="index"
-                      :label="item.displayValue"
-                      :value="item.id"
-                    >{{ item.displayValue }}</a-select-option>
-                  </a-select>
+                    placeholder="请输入内容"
+                  />
                 </a-form-item>
               </a-col>
               <a-col :span="6">
                 <a-form-item
                   label="光尘">
-                  <a-select
+                  <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'hospNatureId',{initialValue: data.hospNatureId}
+                      'dust',
+                      {rules: [{ required: false, message: '请输入简称' }],initialValue: data.dust}
                     ]"
-                    placeholder="请选择">
-                    <a-select-option
-                      v-for="(item, index) in natures"
-                      :key="index"
-                      :label="item.displayValue"
-                      :value="item.id"
-                    >{{ item.displayValue }}</a-select-option>
-                  </a-select>
+                    placeholder="请输入内容"
+                  />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -150,9 +147,8 @@
                   <a-input
                     :disabled="disabled"
                     step="0"
-                    :maxLength="11"
                     v-decorator="[
-                      'phone',{rules: [{ required: true, message: '请输入电话' },{validator:phoneCheck.bind(this)}],initialValue: data.phone}
+                      'Evil',{rules: [{ required: false, message: '请输入电话' },{validator:phoneCheck.bind(this)}],initialValue: data.Evil}
                     ]"
                     placeholder="请输入手机号"
                   />
@@ -164,7 +160,7 @@
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'address',{rules: [{ required: true, message: '请输入地址' }],initialValue: data.address}
+                      'heroic',{rules: [{ required: false, message: '请输入地址' }],initialValue: data.heroic}
                     ]"
                     placeholder="请输入内容"
                   />
@@ -176,7 +172,7 @@
                   <a-input
                     :disabled="disabled"
                     v-decorator="[
-                      'address',{rules: [{ required: true, message: '请输入地址' }],initialValue: data.address}
+                      'glory',{rules: [{ required: false, message: '请输入地址' }],initialValue: data.glory}
                     ]"
                     placeholder="请输入内容"
                   />
@@ -205,7 +201,7 @@ import {
 import DetailList from '@/components/antpro/tools/DetailList'
 import * as BaseGlobal from '@/global/BaseGlobal'
 // import HosApi from '../../../../../common/api/mps/hospital/hosApi'
-// import PresApi from '../../../../../common/api/mps/prescription/presApi'
+import userApi from '../../../common/api/guild/userApi'
 const DetailListItem = DetailList.Item
 
 export default {
@@ -219,21 +215,18 @@ export default {
     return {
       options: [],
       data: {
-        hospId: '',
-        hospCode: '',
-        hospName: '',
-        district: '',
-        districtName: '',
-        directions: '',
-        abridge: '',
-        address: '',
-        level: '',
-        hospNature: '',
-        phone: '',
-        presentation: '',
-        isvalid: '1',
-        signStatus: '0',
-        community: ''
+        id: '',
+        name: '',
+        seasonLevels: '',
+        hardLight: '',
+        artifact: '',
+        glimmering: '',
+        coin: '',
+        dust: '',
+        heroic: '',
+        glory: '',
+        Evil: '',
+        synopsis: ''
       },
       parameter: {
         id: ''
@@ -252,19 +245,7 @@ export default {
     }
   },
   mounted () {
-    this.getSelregions()
-    const self = this
-    this.$ez.fun.getDictVByCode(30, res => {
-      self.levels = res.data
-    })
-    this.$ez.fun.getDictVByCode(40, res => {
-      self.natures = res.data
-    })
     this.parameter.id = this.$route.query.id
-    this.validList = BaseGlobal.validList
-    this.signList = BaseGlobal.signList
-    this.appAccountStatusList = BaseGlobal.appAccountStatusList
-    this.genderList = BaseGlobal.genderList
     const look = this.$route.query.state
     this.disabled = look === 'look'
     this.readonly = look === 'look'
@@ -308,46 +289,14 @@ export default {
         }
       })
     },
-    getSelregions () {
-      // PresApi.getSelregion({
-      //   data: {
-      //     level: 2,
-      //     id: 31196
-      //   }
-      // }).then(res => {
-      //   console.log(res)
-      //   this.options = res.data
-      // })
-    },
-    onChanges (value) {
-      console.log(value)
-      this.parameter.districtId = value[value.length - 1]
-    },
     getData () {
-      // HosApi.getInfo({
-      //   data: this.parameter,
-      //   success: res => {
-      //     this.data.hospCode = res.data.hospCode
-      //     this.data.hospName = res.data.hospName
-      //     this.data.districtName = res.data.districtName
-      //     this.data.hospNatureId = res.data.hospNatureId
-      //     this.data.levelId = res.data.levelId
-      //     this.data.district = res.data.district
-      //     this.data.districtId = res.data.districtId
-      //     this.data.directions = res.data.directions
-      //     this.data.district = res.data.district.split(',')
-      //     this.data.abridge = res.data.abridge
-      //     this.data.address = res.data.address
-      //     this.data.level = res.data.level
-      //     this.data.hospNature = res.data.hospNature
-      //     this.data.phone = res.data.phone
-      //     this.data.presentation = res.data.presentation
-      //     this.data.isvalid = res.data.isvalid + ''
-      //     this.data.signStatus = res.data.signStatus + ''
-      //     this.data.community = res.data.community
-      //     this.data.hospId = res.data.hospId
-      //   }
-      // })
+      userApi.userInfo({
+        data: this.parameter
+      }).then(res => {
+			console.log(res.data)
+          this.data = res.data
+          // return res.data
+        })
     },
     phoneCheck (rule, value, callbackFn) {
       const reg = /^[0-9]*$/
