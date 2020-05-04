@@ -9,8 +9,21 @@
                 <!--layout="inline"-->
                 <a-row :gutter="48">
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="奖励名称">
-                      <a-input v-model="queryParam.rewardName" placeholder="请输入奖励名称" />
+                    <a-form-item label="图片分组">
+                      <a-select v-model="queryParam.group" placeholder="请选择图片分组">
+                        <a-select-option
+                          label="全部"
+                          value=""
+                        >全部</a-select-option>
+                        <a-select-option
+                          label="头像"
+                          :value="1"
+                        >头像</a-select-option>
+                        <a-select-option
+                          label="商品"
+                          :value="0"
+                        >商品</a-select-option>
+                      </a-select>
                     </a-form-item>
                   </a-col>
                 </a-row>
@@ -31,9 +44,9 @@
               <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
                 <div style="margin-bottom: 10px;position: relative;height: 50px;">
                   <div style="float: left">
-                    <a-icon type="bar-chart"></a-icon><span>公会奖励列表</span>
+                    <a-icon type="bar-chart"></a-icon><span>图片库</span>
                   </div>
-                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/reward/lookReward', query: {id: 0}}">新增公会奖励</router-link></a-button>
+                  <!-- <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/task/lookTask', query: {id: 0}}">新增任务信息</router-link></a-button> -->
                 </div>
                 <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
                   <!--<span slot="registerTime" slot-scope="text, record">-->
@@ -41,13 +54,9 @@
                   <!--&lt;!&ndash;{{ record.registerTime.substring(0,10) }}&ndash;&gt;-->
                   <!--</span>-->
                   <!--</span>-->
-                  <span slot="action" slot-scope="text, record">
+                  <span slot="url" slot-scope="text, record">
                     <template>
-                      <a><router-link :to="{ path: '/reward/lookReward', query: {id: record.id,state:'look'}}">查看</router-link></a>
-                      <a-divider type="vertical" />
-                      <a><router-link :to="{ path: '/reward/lookReward', query: {id: record.id}}">编辑</router-link></a>
-                      <a-divider type="vertical" />
-                      <a @click="() => {visible = true , num = 0 ,parameter.id = record.id}">生成奖励兑换码</a>
+                      <img :src="record.url" style="width: 600px;height: 300px;"/>
                     </template>
                   </span>
                 </s-table>
@@ -59,18 +68,6 @@
         </ez-view>
       </ez-view>
     </PageView>
-    <a-modal
-      width="30%"
-      :visible="visible"
-      title="生成奖励兑换码数量"
-      :destroyOnClose="true"
-      :footer="null"
-      @cancel="() => {visible = false}"
-    >
-      <div>生成奖励兑换码数量</div>
-      <a-input-number v-model="num" :max="10" placeholder="请填写生成奖励兑换码数量" />
-      <a-button type="primary" style="width: 100%;margin-top: 20px;" @click="ok()">提交</a-button>
-    </a-modal>
   </div>
 </template>
 <script>
@@ -84,9 +81,9 @@ import * as BaseGlobal from '@/global/BaseGlobal'
 // import HocApi from '../../../../common/api/mps/hospital/hosApi'
 import ARow from 'ant-design-vue/lib/grid/Row'
 // import PresApi from '../../../../common/api/mps/prescription/presApi'
-import rewardApi from '../../common/api/guild/rewardApi'
+import imagesApi from '../../common/api/guild/imagesApi'
 export default {
-  name: 'Reward',
+  name: 'Images',
   components: {
     ARow,
     STable,
@@ -95,79 +92,51 @@ export default {
   },
   data () {
     return {
-		num: 1,
-		visible: false,
+		taskTypeList: ['全部', '熔炉悬赏', '先锋悬赏', '智谋悬赏', '日常悬赏'],
+		taskRewardList: ['全部', '微光', '光尘', '经验值'],
       options: [],
       levels: {},
       natures: {},
       hosNames: [],
       validList: '',
       loadData: parameter => {
-        return rewardApi.rewardList({
+        return imagesApi.imagesList({
           data: Object.assign(parameter, this.queryParam)
         }).then(res => {
           return res.data
         })
       },
       parameter: {
-        id: ''
+        districtId: ''
       },
       queryParam: {
-        rewardName: ''
+		group: ''
       },
       columns: [{
         'title': 'id',
         'dataIndex': 'id'
       },
       {
-        'title': '奖励名称',
-        'dataIndex': 'rewardName'
-      },
-      {
-        'title': '奖励内容',
-        'dataIndex': 'rewardType'
-      },
-      {
-        'title': '兑换开始时间',
-        'dataIndex': 'convertStartTime'
-      },
-      {
-        'title': '兑换结束时间',
-        'dataIndex': 'convertEndTime'
-      },
-      {
-        'title': '操作',
-        'dataIndex': 'action',
-        'width': '250px',
+        'title': '图片',
+        'dataIndex': 'url',
         'scopedSlots': {
-          'customRender': 'action'
+          'customRender': 'url'
         }
+      },
+      {
+        'title': '图片分组',
+        'dataIndex': 'group',
+        customRender: (group) => { if (group === '0') { return '商品' } else if (group === '1') { return '头像' } }
       }
       ]
     }
   },
   mounted () {
     this.validList = BaseGlobal.validList
+    // const self = this
     this.getSelregions()
   },
   methods: {
-	ok () {
-		if (this.num <= 0) {
-			this.$message.error('生成数量不能小于等于0')
-			return
-		}
-		console.log(this.parameter.id, this.num)
-		this.parameter.num = this.num
-      rewardApi.rewardCode({
-        data: this.parameter
-      }).then(res => {
-	if (res.code === 200) {
-	this.$message.success('生成成功')
-	this.visible = false
-	}
-        console.log(res)
-      })
-},
     getSelregions () {
       // PresApi.getSelregion({
       //   data: {

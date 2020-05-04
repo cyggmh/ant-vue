@@ -9,8 +9,26 @@
                 <!--layout="inline"-->
                 <a-row :gutter="48">
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="奖励名称">
-                      <a-input v-model="queryParam.rewardName" placeholder="请输入奖励名称" />
+                    <a-form-item label="公会奖励名称">
+                      <a-input v-model="queryParam.guildRewardName" placeholder="请输入奖励名称" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :md="8" :sm="24">
+                    <a-form-item label="状态">
+                      <a-select v-model="queryParam.state" placeholder="请选择兑换码状态">
+                        <a-select-option
+                          label="全部"
+                          value=""
+                        >全部</a-select-option>
+                        <a-select-option
+                          label="使用"
+                          :value="1"
+                        >使用</a-select-option>
+                        <a-select-option
+                          label="未使用"
+                          :value="0"
+                        >未使用</a-select-option>
+                      </a-select>
                     </a-form-item>
                   </a-col>
                 </a-row>
@@ -31,9 +49,9 @@
               <div slot="body" class="ez-a-table-th-nobg ez-a-card-spadding">
                 <div style="margin-bottom: 10px;position: relative;height: 50px;">
                   <div style="float: left">
-                    <a-icon type="bar-chart"></a-icon><span>公会奖励列表</span>
+                    <a-icon type="bar-chart"></a-icon><span>公会奖励兑换码列表</span>
                   </div>
-                  <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/reward/lookReward', query: {id: 0}}">新增公会奖励</router-link></a-button>
+                  <!-- <a-button type="primary" style="margin-bottom: 20px;position: absolute;right: 50px;"><router-link :to="{ path: '/reward/lookReward', query: {id: 0}}">新增公会奖励</router-link></a-button> -->
                 </div>
                 <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData">
                   <!--<span slot="registerTime" slot-scope="text, record">-->
@@ -41,7 +59,7 @@
                   <!--&lt;!&ndash;{{ record.registerTime.substring(0,10) }}&ndash;&gt;-->
                   <!--</span>-->
                   <!--</span>-->
-                  <span slot="action" slot-scope="text, record">
+                  <!-- <span slot="action" slot-scope="text, record">
                     <template>
                       <a><router-link :to="{ path: '/reward/lookReward', query: {id: record.id,state:'look'}}">查看</router-link></a>
                       <a-divider type="vertical" />
@@ -49,7 +67,7 @@
                       <a-divider type="vertical" />
                       <a @click="() => {visible = true , num = 0 ,parameter.id = record.id}">生成奖励兑换码</a>
                     </template>
-                  </span>
+                  </span> -->
                 </s-table>
               </div>
             </ez-view>
@@ -103,7 +121,7 @@ export default {
       hosNames: [],
       validList: '',
       loadData: parameter => {
-        return rewardApi.rewardList({
+        return rewardApi.rewardCodeList({
           data: Object.assign(parameter, this.queryParam)
         }).then(res => {
           return res.data
@@ -113,35 +131,25 @@ export default {
         id: ''
       },
       queryParam: {
-        rewardName: ''
+        guildRewardName: '',
+		state: ''
       },
       columns: [{
         'title': 'id',
         'dataIndex': 'id'
       },
       {
-        'title': '奖励名称',
-        'dataIndex': 'rewardName'
+        'title': '公会奖励名称',
+        'dataIndex': 'guildRewardName'
       },
       {
-        'title': '奖励内容',
-        'dataIndex': 'rewardType'
+        'title': '兑换码',
+        'dataIndex': 'exchangeCode'
       },
       {
-        'title': '兑换开始时间',
-        'dataIndex': 'convertStartTime'
-      },
-      {
-        'title': '兑换结束时间',
-        'dataIndex': 'convertEndTime'
-      },
-      {
-        'title': '操作',
-        'dataIndex': 'action',
-        'width': '250px',
-        'scopedSlots': {
-          'customRender': 'action'
-        }
+        'title': '使用状态',
+        'dataIndex': 'state',
+        customRender: (state) => { if (state === 0) { return '未使用' } else if (state === 1) { return '使用' } }
       }
       ]
     }

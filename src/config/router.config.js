@@ -131,11 +131,38 @@ export const asyncRouterMap = [
             meta: { title: '奖励列表', keepAlive: true, permission: [ 'table' ] }
           },
           {
-            path: '/members',
-            name: 'Members',
+            path: '/rewardCode',
+            name: 'rewardCode',
+            component: () => import('@/views/reward/rewardCode'),
+            meta: { title: '兑换码列表', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/rewardUseCode',
+            name: 'rewardUseCode',
+            component: () => import('@/views/reward/rewardUseCode'),
+            meta: { title: '兑换码使用记录', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/reward/lookReward',
+            name: 'lookReward',
 			hidden: true,
-            component: () => import('@/views/members/Members'),
+            component: () => import('@/views/reward/lookReward/lookReward'),
             meta: { title: '奖励详情', keepAlive: true, permission: [ 'table' ] }
+          }
+        ]
+      },
+      // Images
+      {
+        path: '/Images',
+        redirect: '/images/Images',
+        component: PageView,
+        meta: { title: '图片库', icon: 'table', permission: [ 'table' ] },
+        children: [
+          {
+            path: '/Images',
+            name: 'Images',
+            component: () => import('@/views/images/images'),
+            meta: { title: '图片库', keepAlive: true, permission: [ 'table' ] }
           }
         ]
       }
