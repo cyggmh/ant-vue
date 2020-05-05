@@ -40,49 +40,49 @@ const projects = () => {
   return builder({
     'data': [{
       id: 1,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-      title: 'Alipay',
-      description: '那是一种内在的东西， 他们到达不了，也无法触及的',
+      cover: '',
+      title: '非法校准',
+      description: '在纷争海岸用精准最后一击校准武器。遗失区域能最高效地提升进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     },
     {
       id: 2,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
-      title: 'Angular',
-      description: '希望是一个好东西，也许是最好的，好东西是不会消亡的',
+      cover: '',
+      title: '非法校准',
+      description: '在纷争海岸用精准最后一击校准武器。遗失区域能最高效地提升进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     },
     {
       id: 3,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
-      title: 'Ant Design',
-      description: '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
+      cover: '',
+      title: '非法校准',
+      description: '在纷争海岸用精准最后一击校准武器。遗失区域能最高效地提升进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     },
     {
       id: 4,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
-      title: 'Ant Design Pro',
-      description: '那时候我只会想自己想要什么，从不想自己拥有什么',
+      cover: '',
+      title: '实地校准',
+      description: '在打击、智谋和熔炉竞技场中针对目标校准武器。精准最后一击、使用能量或威能武器可获得额外进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     },
     {
       id: 5,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
-      title: 'Bootstrap',
-      description: '凛冬将至',
+      cover: '',
+      title: '实地校准',
+      description: '在打击、智谋和熔炉竞技场中针对目标校准武器。精准最后一击、使用能量或威能武器可获得额外进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     },
     {
       id: 6,
-      cover: 'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png',
-      title: 'Vue',
-      description: '生命就像一盒巧克力，结果往往出人意料',
+      cover: '',
+      title: '实地校准',
+      description: '在打击、智谋和熔炉竞技场中针对目标校准武器。精准最后一击、使用能量或威能武器可获得额外进度。',
       status: 1,
       updatedAt: '2018-07-26 00:00:00'
     }
@@ -98,78 +98,78 @@ const activity = () => {
   return builder([{
     id: 1,
     user: {
-      nickname: '@name',
+      nickname: '南瓜',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
     },
     project: {
-      name: '白鹭酱油开发组',
+      name: '商品管理',
       action: '更新',
-      event: '番组计划'
+      event: '商品'
     },
     time: '2018-08-23 14:47:00'
   },
   {
     id: 1,
     user: {
-      nickname: '蓝莓酱',
+      nickname: '人去空城°',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png'
     },
     project: {
-      name: '白鹭酱油开发组',
+      name: '成员管理',
       action: '更新',
-      event: '番组计划'
+      event: '个人资料'
     },
     time: '2018-08-23 09:35:37'
   },
   {
     id: 1,
     user: {
-      nickname: '@name',
+      nickname: 'Joker',
       avatar: '@image(64x64)'
     },
     project: {
-      name: '白鹭酱油开发组',
+      name: '公会奖励管理',
       action: '创建',
-      event: '番组计划'
+      event: '公会奖励兑换码'
     },
     time: '2017-05-27 00:00:00'
   },
   {
     id: 1,
     user: {
-      nickname: '曲丽丽',
+      nickname: '人去空城°',
       avatar: '@image(64x64)'
     },
     project: {
-      name: '高逼格设计天团',
+      name: '任务列表',
       action: '更新',
-      event: '六月迭代'
+      event: '非法校准悬赏'
     },
     time: '2018-08-23 14:47:00'
   },
   {
     id: 1,
     user: {
-      nickname: '@name',
+      nickname: '南瓜',
       avatar: '@image(64x64)'
     },
     project: {
-      name: '高逼格设计天团',
-      action: 'created',
-      event: '六月迭代'
+      name: '公会奖励管理',
+      action: '添加了',
+      event: '公会奖励'
     },
     time: '2018-08-23 14:47:00'
   },
   {
     id: 1,
     user: {
-      nickname: '曲丽丽',
+      nickname: '南瓜',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
     },
     project: {
-      name: '高逼格设计天团',
-      action: 'created',
-      event: '六月迭代'
+      name: '任务管理',
+      action: '添加了',
+      event: '非法校准'
     },
     time: '2018-08-23 14:47:00'
   }
@@ -179,28 +179,23 @@ const activity = () => {
 const teams = () => {
   return builder([{
     id: 1,
-    name: '科学搬砖组',
+    name: '南瓜',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png'
   },
   {
     id: 2,
-    name: '程序员日常',
+    name: '人去空城°',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png'
   },
   {
     id: 1,
-    name: '设计天团',
+    name: 'Saika',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png'
   },
   {
     id: 1,
-    name: '中二少女团',
+    name: 'Joker',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png'
-  },
-  {
-    id: 1,
-    name: '骗你学计算机',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png'
   }
   ])
 }

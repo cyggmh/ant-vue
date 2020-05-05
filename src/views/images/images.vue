@@ -126,7 +126,7 @@ export default {
       {
         'title': '图片分组',
         'dataIndex': 'group',
-        customRender: (group) => { if (group === '0') { return '商品' } else if (group === '1') { return '头像' } }
+        customRender: (group) => { if (group === '2') { return '商品' } else if (group === '1') { return '头像' } }
       }
       ]
     }

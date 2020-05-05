@@ -109,10 +109,10 @@ export const asyncRouterMap = [
             meta: { title: '商品列表', keepAlive: true, permission: [ 'table' ] }
           },
           {
-            path: '/members',
-            name: 'Members',
+            path: '/store/lookStore',
+            name: 'lookStore',
 			hidden: true,
-            component: () => import('@/views/members/Members'),
+            component: () => import('@/views/store/lookStore/lookStore'),
             meta: { title: '商品详情', keepAlive: true, permission: [ 'table' ] }
           }
         ]
